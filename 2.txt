@@ -1,0 +1,442 @@
+# **Experiment 15: Introduction to Docker and Basic Commands**
+
+### **Question:**
+
+Install Docker and perform basic Docker operations.
+
+### **Procedure:**
+
+### **A) Install Docker (Windows):**
+
+1. Download Docker Desktop from:
+   [https://www.docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop)
+
+2. Run the installer.
+
+3. Restart the system.
+
+4. Open Command Prompt.
+
+5. Verify installation:
+
+```bash
+docker --version
+```
+
+---
+
+### **B) Basic Docker Commands:**
+
+Check version:
+
+```bash
+docker --version
+```
+
+List running containers:
+
+```bash
+docker ps
+```
+
+List all containers:
+
+```bash
+docker ps -a
+```
+
+List images:
+
+```bash
+docker images
+```
+
+---
+
+### **Task 1: Run First Container**
+
+```bash
+docker run hello-world
+```
+
+---
+
+### **Task 2: Run Web Server (Nginx)**
+
+Pull image:
+
+```bash
+docker pull nginx
+```
+
+Run container:
+
+```bash
+docker run -d -p 8080:80 nginx
+```
+
+Open browser:
+
+```
+http://localhost:8080
+```
+
+---
+
+### **Task 3: Manage Containers**
+
+List containers:
+
+```bash
+docker ps
+```
+
+Stop container:
+
+```bash
+docker stop <container_id>
+```
+
+Remove container:
+
+```bash
+docker rm <container_id>
+```
+
+---
+
+# **Experiment 16: Creating Docker Images using Dockerfile**
+
+### **Question:**
+
+Create and run a Docker image using Dockerfile.
+
+### **Procedure:**
+
+### **Step 1: Create Project**
+
+```bash
+mkdir docker-app
+cd docker-app
+```
+
+Create file:
+
+```bash
+sample.py
+```
+
+---
+
+### **Step 2: Create Dockerfile**
+
+```Dockerfile
+FROM python:3.9-slim
+WORKDIR /app
+COPY sample.py .
+CMD ["python", "sample.py"]
+```
+
+---
+
+### **Step 3: Build Image**
+
+```bash
+docker build -t my-python-app .
+```
+
+---
+
+### **Step 4: Check Image**
+
+```bash
+docker images
+```
+
+---
+
+### **Step 5: Run Container**
+
+```bash
+docker run my-python-app
+```
+
+---
+
+### **For Web App (Port Mapping)**
+
+```bash
+docker run -p 5020:5020 my-python-app
+```
+
+---
+
+# **Experiment 17: Docker Volumes and Port Mapping**
+
+### **Question:**
+
+Demonstrate Docker port mapping and volumes.
+
+### **Procedure:**
+
+### **Part A: Port Mapping**
+
+Run container without port:
+
+```bash
+docker run -d nginx
+```
+
+Run with port mapping:
+
+```bash
+docker run -d -p 8080:80 nginx
+```
+
+---
+
+### **Part B: Volumes**
+
+Create volume:
+
+```bash
+docker volume create myvolume
+```
+
+List volumes:
+
+```bash
+docker volume ls
+```
+
+Run container with volume:
+
+```bash
+docker run -it -v myvolume:/data ubuntu bash
+```
+
+Inside container:
+
+```bash
+cd /data
+echo "Docker Volume Test" > test.txt
+exit
+```
+
+Run again:
+
+```bash
+docker run -it -v myvolume:/data ubuntu bash
+```
+
+Check file:
+
+```bash
+cat /data/test.txt
+```
+
+---
+
+### **Part C: Combined**
+
+```bash
+docker run -d -p 8081:80 -v myvolume:/usr/share/nginx/html nginx
+```
+
+Check:
+
+```
+http://localhost:8081
+```
+
+---
+
+### **Verification Commands**
+
+```bash
+docker ps
+docker volume ls
+docker volume inspect myvolume
+```
+
+---
+
+# **Experiment 18: Docker Image Push to Docker Hub**
+
+### **Question:**
+
+Push a Docker image to Docker Hub.
+
+### **Procedure:**
+
+### **Step 1: Build Image**
+
+```bash
+docker build -t java-app .
+```
+
+---
+
+### **Step 2: Login**
+
+```bash
+docker login
+```
+
+---
+
+### **Step 3: Tag Image**
+
+```bash
+docker tag java-app yourusername/java-app:v1
+```
+
+---
+
+### **Step 4: Push Image**
+
+```bash
+docker push yourusername/java-app:v1
+```
+
+---
+
+### **Step 5: Verify**
+
+* Open Docker Hub
+* Check repository
+
+---
+
+# **Experiment 19: Jenkins and Docker Integration**
+
+### **Question:**
+
+Integrate Jenkins with Docker for CI.
+
+### **Procedure:**
+
+### **Step 1: Create Jenkins Job**
+
+* Go to Jenkins Dashboard
+* Click **New Item → Pipeline**
+
+---
+
+### **Step 2: Add Pipeline Script**
+
+```groovy
+pipeline {
+    agent any
+    stages {
+        stage('Clone Code') {
+            steps {
+                git 'https://github.com/your-repo/sample-app.git'
+            }
+        }
+        stage('Build Image') {
+            steps {
+                bat 'docker build -t my-app .'
+            }
+        }
+        stage('Run Container') {
+            steps {
+                bat 'docker run -d my-app'
+            }
+        }
+    }
+}
+```
+
+---
+
+### **Step 3: Build Pipeline**
+
+* Click **Build Now**
+
+---
+
+### **Step 4: Verify**
+
+```bash
+docker images
+docker ps
+```
+
+---
+
+### **Alternative Method (Freestyle Job):**
+
+```bash
+docker build -t java-app .
+docker run -d java-app
+```
+
+---
+
+# **Experiment 20: Simple End-to-End CI/CD Pipeline**
+
+### **Question:**
+
+Implement a CI/CD pipeline using Jenkins and Docker.
+
+### **Procedure:**
+
+### **Step 1: Create Git Repository**
+
+* Add code
+* Add Dockerfile
+* Add Jenkinsfile
+
+---
+
+### **Step 2: Create Jenkins Job**
+
+* Freestyle or Pipeline
+
+---
+
+### **Step 3: Add Jenkinsfile**
+
+```groovy
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                bat 'mvn clean package'
+            }
+        }
+        stage('Docker Build') {
+            steps {
+                bat 'docker build -t sample-webapp .'
+            }
+        }
+        stage('Run') {
+            steps {
+                bat 'docker run -d -p 8087:8087 sample-webapp'
+            }
+        }
+    }
+}
+```
+
+---
+
+### **Step 4: Run Pipeline**
+
+* Click **Build Now**
+
+---
+
+### **Step 5: Verify**
+
+```bash
+docker ps
+```
+
+Open:
+
+```
+http://localhost:8087
+``
