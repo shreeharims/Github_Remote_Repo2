@@ -1,0 +1,489 @@
+# **Experiment 1: Introduction to Git and Local Repository Management**
+
+### **Question:**
+
+Perform basic Git operations to create and manage a local repository.
+
+### **Procedure:**
+
+1. Create a directory and navigate into it:
+
+```
+mkdir Git_Lab_Experiment1
+cd Git_Lab_Experiment1
+```
+
+2. Initialize a Git repository:
+
+```
+git init
+```
+
+3. Configure Git:
+
+```
+git config --global user.name "Your Name"
+git config --global user.email your_email@example.com
+```
+
+4. Create a file:
+
+```
+echo "This is my first Git experiment" > README.txt
+```
+
+5. Check status:
+
+```
+git status
+```
+
+6. Add file to staging:
+
+```
+git add README.txt
+```
+
+7. Commit the file:
+
+```
+git commit -m "Initial commit"
+```
+
+8. Modify file:
+
+```
+echo "Git tracks file changes" >> README.txt
+```
+
+9. Add and commit changes:
+
+```
+git add README.txt
+git commit -m "Updated README file"
+```
+
+10. View commit history:
+
+```
+git log
+```
+
+---
+
+# **Experiment 2: Working with Git Branches**
+
+### **Question:**
+
+Demonstrate branching, merging, and conflict resolution in Git.
+
+### **Procedure:**
+
+1. Initialize repository:
+
+```
+git init
+```
+
+2. Check current branch:
+
+```
+git branch
+```
+
+3. Create new branch:
+
+```
+git branch feature-branch
+```
+
+4. Switch branch:
+
+```
+git checkout feature-branch
+```
+
+5. Make changes and check status:
+
+```
+git status
+```
+
+6. Add and commit:
+
+```
+git add .
+git commit -m "Added new feature"
+```
+
+7. Switch back to main:
+
+```
+git checkout main
+```
+
+8. Merge branch:
+
+```
+git merge feature-branch
+```
+
+9. Resolve conflicts (if any):
+
+```
+git add <filename>
+git commit
+```
+
+10. View history:
+
+```
+git log --oneline
+```
+
+11. Delete branch:
+
+```
+git branch -d feature-branch
+```
+
+---
+
+# **Experiment 3: GitHub Repository Creation and Push**
+
+### **Question:**
+
+Create a GitHub repository and perform push, pull, and clone operations.
+
+### **Procedure:**
+
+1. Configure Git:
+
+```
+git config --global user.name "Your Name"
+git config --global user.email "your_email@example.com"
+```
+
+2. Clone repository:
+
+```
+git clone https://github.com/YourUsername/git-lab-demo.git
+cd git-lab-demo
+```
+
+3. Add file:
+
+```
+echo "print('Hello')" > main.py
+```
+
+4. Add and commit:
+
+```
+git add main.py
+git commit -m "Add main.py"
+```
+
+5. Push to GitHub:
+
+```
+git push origin main
+```
+
+6. Fetch updates:
+
+```
+git fetch origin
+```
+
+7. Pull updates:
+
+```
+git pull origin main
+```
+
+---
+
+# **Experiment 4: GitHub Collaboration Using Pull Requests**
+
+### **Question:**
+
+Demonstrate collaboration using fork, branch, and pull request.
+
+### **Procedure:**
+
+1. Clone repository:
+
+```
+git clone <repo-url>
+cd repo
+```
+
+2. Create file:
+
+```
+touch file1.txt
+echo "Master branch file" > file1.txt
+```
+
+3. Add and commit:
+
+```
+git add file1.txt
+git commit -m "Initial commit"
+```
+
+4. Push to GitHub:
+
+```
+git push origin main
+```
+
+5. Create branch:
+
+```
+git branch feature-1
+git checkout feature-1
+```
+
+6. Modify file:
+
+```
+echo "Feature change" >> file1.txt
+```
+
+7. Add and commit:
+
+```
+git add .
+git commit -m "Feature changes"
+```
+
+8. Push branch:
+
+```
+git push origin feature-1
+```
+
+9. Create Pull Request on GitHub (UI)
+
+10. After merge, update local:
+
+```
+git checkout main
+git pull origin main
+```
+
+11. Delete branch:
+
+```
+git branch -d feature-1
+git push origin --delete feature-1
+```
+
+---
+
+# **Experiment 5: Git Tagging and Release Creation**
+
+### **Question:**
+
+Create and manage Git tags and releases.
+
+### **Procedure:**
+
+1. Pull latest code:
+
+```
+git pull
+```
+
+2. Create tag:
+
+```
+git tag v1.0
+```
+
+3. List tags:
+
+```
+git tag
+```
+
+4. Create annotated tag:
+
+```
+git tag -a v1.2 -m "Version 1.2 created"
+```
+
+5. Show tag details:
+
+```
+git show v1.0
+```
+
+6. Push tag:
+
+```
+git push origin v1.0
+```
+
+7. Push all tags:
+
+```
+git push --tags
+```
+
+8. Delete local tag:
+
+```
+git tag -d v1.0
+```
+
+9. Delete remote tag:
+
+```
+git push origin -d v1.0
+```
+
+---
+
+# **Experiment 7: Jenkins Freestyle Job**
+
+### **Question:**
+
+Create and execute a Jenkins freestyle job.
+
+### **Procedure:**
+
+1. Open Jenkins:
+
+```
+http://localhost:8080
+```
+
+2. Login with credentials.
+
+3. Create new job:
+
+* Click **New Item**
+* Enter name → Select **Freestyle Project**
+
+4. Add build step:
+
+* Choose **Execute Windows Batch Command**
+
+5. Enter command:
+
+```
+echo "Hi, Welcome to Jenkins"
+```
+
+6. Save and build:
+
+* Click **Build Now**
+
+7. Check output:
+
+* Click **Console Output**
+
+---
+
+# **Experiment 8: Jenkins Build Triggers**
+
+### **Question:**
+
+Configure automatic build triggers using SCM polling and webhooks.
+
+### **Procedure:**
+
+1. Create GitHub repository.
+
+2. Create Jenkins job.
+
+3. Configure Git:
+
+* Enter repository URL
+
+4. Add credentials.
+
+5. Configure branch:
+
+```
+*/main
+```
+
+6. Enable triggers:
+
+* Select **Poll SCM**
+* Add schedule:
+
+```
+* * * * *
+```
+
+7. Add build step:
+
+```
+javac BankService.java
+java BankService
+```
+
+8. Save and build.
+
+9. Modify code in GitHub → build triggers automatically.
+
+---
+
+# **Experiment 9: Maven Project Creation and Build**
+
+### **Question:**
+
+Create and build a Java project using Maven.
+
+### **Procedure:**
+
+1. Check Maven:
+
+```
+mvn --version
+```
+
+2. Generate project:
+
+```
+mvn archetype:generate
+```
+
+3. Enter details:
+
+```
+groupId: com.bnmit
+artifactId: sample-app
+```
+
+4. Build project:
+
+```
+mvn package
+```
+
+5. Clean project:
+
+```
+mvn clean
+```
+
+6. Generate site:
+
+```
+mvn site
+```
+
+7. Run application:
+
+```
+cd target
+java -cp sample-app-1.0-SNAPSHOT.jar com.bnmit.BankService
+```
+
+
