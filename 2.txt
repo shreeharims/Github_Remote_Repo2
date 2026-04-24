@@ -120,22 +120,49 @@ mkdir docker-app
 cd docker-app
 ```
 
-Create file:
 
-```bash
-sample.py
-```
+Create a file named:
+1)	sample.py
+Add the following code:
+print("Hello from Docker container!")
+
+2)app.py (webserver code)
+Add the following code:
+from http.server import SimpleHTTPRequestHandler, HTTPServer
+
+PORT = 5020
+
+class MyHandler(SimpleHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header("Content-type", "text/html")
+        self.end_headers()
+        self.wfile.write(b"<h1>Hello from Docker Python Container</h1>")
+
+server = HTTPServer(("0.0.0.0", PORT), MyHandler)
+print(f"Server running on port {PORT}...")
+server.serve_forever()
 
 ---
 
 ### **Step 2: Create Dockerfile**
 
-```Dockerfile
+```Dockerfile for sample.py
 FROM python:3.9-slim
 WORKDIR /app
 COPY sample.py .
 CMD ["python", "sample.py"]
 ```
+Dockerfile for app.py
+FROM python:3.9-slim
+
+WORKDIR /app
+
+COPY app.py .
+
+EXPOSE 5020
+
+CMD ["python", "app.py"]
 
 ---
 
@@ -166,7 +193,7 @@ docker run my-python-app
 ### **For Web App (Port Mapping)**
 
 ```bash
-docker run -p 5020:5020 my-python-app
+docker run -p 5020:5020 my-python-app1
 ```
 
 ---
